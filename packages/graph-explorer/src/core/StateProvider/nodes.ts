@@ -1,3 +1,5 @@
+//Provide Recoil Atoms for the nodes in the graph
+
 import { atom, selector } from "recoil";
 import type { Vertex } from "../../@types/entities";
 import { sanitizeText } from "../../utils";
