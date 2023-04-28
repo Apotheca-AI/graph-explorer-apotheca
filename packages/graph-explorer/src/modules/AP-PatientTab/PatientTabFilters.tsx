@@ -1,5 +1,5 @@
 import { clone } from "lodash";
-import { useCallback, useEffect } from "react";
+import {/*useState, */useCallback, useEffect } from "react";
 import {
   AddIcon,
   DeleteIcon,
@@ -7,26 +7,28 @@ import {
   Input,
   Select,
 } from "../../components";
+import Checkbox from './FullExpandCheckbox'
 import { useConfiguration, withClassNamePrefix } from "../../core";
 import useTextTransform from "../../hooks/useTextTransform";
 import useTranslations from "../../hooks/useTranslations";
 
-export type NodeExpandFilter = {
+export type PatientExpandFilter = {
   name: string;
   value: string;
 };
-export type NodeExpandFiltersProps = {
+
+export type PatientExpandFiltersProps = {
   classNamePrefix?: string;
   neighborsOptions: Array<{ label: string; value: string }>;
   selectedType: string;
   onSelectedTypeChange(type: string): void;
-  filters: Array<NodeExpandFilter>;
-  onFiltersChange(filters: Array<NodeExpandFilter>): void;
+  filters: Array<PatientExpandFilter>;
+  onFiltersChange(filters: Array<PatientExpandFilter>): void;
   limit: number | null;
   onLimitChange(limit: number | null): void;
 };
 
-const NodeExpandFilters = ({
+const PatientExpandFilters = ({
   classNamePrefix = "ft",
   neighborsOptions,
   selectedType,
@@ -35,7 +37,7 @@ const NodeExpandFilters = ({
   onFiltersChange,
   limit,
   onLimitChange,
-}: NodeExpandFiltersProps) => {
+}: PatientExpandFiltersProps) => {
   const config = useConfiguration();
   const t = useTranslations();
   const textTransform = useTextTransform();
@@ -46,6 +48,17 @@ const NodeExpandFilters = ({
     selectedType
   );
 
+/* this is supposed to be the select to expand to all neighbors
+  const onCheckboxChange = useCallback(
+    (value: string, checked: boolean) => {
+      if (checked) {
+        onLimitChange(null);
+        neighborsOptions
+      }
+    },
+    [onLimitChange]
+  );
+*/
   const onFilterAdd = useCallback(() => {
     onFiltersChange([
       ...filters,
@@ -89,6 +102,23 @@ const NodeExpandFilters = ({
         }}
         options={neighborsOptions}
       />
+
+      {/*/*multiselect potentially }
+      {searchableAttributes?.length && (
+  <div className={pfx("filters")}>
+    {searchableAttributes.map((attr, index) => (
+      <div key={attr.name} className={pfx("single-filter")}>
+        <Checkbox
+          label={attr.displayLabel || textTransform(attr.name)}
+          value={attr.name}
+          
+          onChange={onCheckboxChange}
+        />
+      </div>
+    ))}
+  </div>
+)}
+   */}
       {!!vtConfig?.attributes?.length && (
         <div className={pfx("title")}>
           <div>Filter to narrow results</div>
@@ -175,4 +205,4 @@ const NodeExpandFilters = ({
   );
 };
 
-export default NodeExpandFilters;
+export default PatientExpandFilters;

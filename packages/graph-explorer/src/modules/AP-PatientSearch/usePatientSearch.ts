@@ -19,16 +19,12 @@ const usePatientSearch = ({ isOpen }: { isOpen: boolean }) => {
 
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounceValue(searchTerm, 1000);
-  //**const [selectedVertexType, setSelectedVertexType] = useState("__all");
+  const [selectedVertexType, setSelectedVertexType] = useState("Patient");
   const [selectedAttribute, setSelectedAttribute] = useState("__all");
   const textTransform = useTextTransform();
 
-  //**
-  const vertexOptions = [
-    { label: "Patients", value: "Patient" },
-  ];
-  /*const vertexOptions = useMemo(() => {
-    const vertexOps =
+  const vertexOptions = useMemo(() => {
+    /*const vertexOps =
       config?.vertexTypes
         .map(vt => {
           const vtConfig = config?.getVertexTypeConfig(vt);
@@ -38,18 +34,16 @@ const usePatientSearch = ({ isOpen }: { isOpen: boolean }) => {
           };
         })
         .sort((a, b) => a.label.localeCompare(b.label)) || [];
-
-    return [{ label: "All", value: "__all" }, ...vertexOps];
+*/
+    return [{ label: "Patient", value: "Patient" }];
   }, [config, textTransform]);
 
   const onSearchTermChange = useCallback((value: string) => {
     setSearchTerm(value);
   }, []);
-  */
+  
 // -------------APOTHECA CHANGES TO ALLOW FOR VALUE TO BE A NUMBER------------
-
-//** 
-/*  const onVertexOptionChange = useCallback((value: string | string[] |number) => {
+  const onVertexOptionChange = useCallback((value: string | string[] |number) => {
     if (typeof value=== 'string') {
       setSelectedVertexType(value as string);
     }
@@ -58,7 +52,7 @@ const usePatientSearch = ({ isOpen }: { isOpen: boolean }) => {
     }
     
   }, []);
-*/
+
   // -------------APOTHECA CHANGES TO ALLOW FOR VALUE TO BE A NUMBER------------
   const onAttributeOptionChange = useCallback((value: string | string[]| number) => {
     if (typeof value=== 'string') {
@@ -70,24 +64,19 @@ const usePatientSearch = ({ isOpen }: { isOpen: boolean }) => {
   }, []);
 
   const searchableAttributes = useMemo(() => {
-    /*
     if (selectedVertexType !== "__all") {
       return (
         config?.getVertexTypeSearchableAttributes(selectedVertexType) || []
       );
     }
-*/
+
     return (
       config?.schema?.vertices.flatMap(vertex =>
         config?.getVertexTypeSearchableAttributes(vertex.type)
       ) || []
     );
-  }, [config, 
-    //**selectedVertexType
-  ]);
+  }, [config, selectedVertexType]);
 
-//** 
-/*
   const searchPlaceholder = useMemo(() => {
     const searchById =
       config?.connection?.queryEngine === "sparql" ? "URI" : "Id";
@@ -124,27 +113,8 @@ const usePatientSearch = ({ isOpen }: { isOpen: boolean }) => {
     textTransform,
     vertexOptions,
   ]);
-  */
-  //const searchPlaceholder = "Search for patients by name, ID, or other attributes...";
-  const searchPlaceholder = useMemo(() => {
-    const attributes = uniq(
-      searchableAttributes.map(
-        attr => attr.displayLabel || textTransform(attr.name)
-      )
-    )
-      .sort((a, b) => a.localeCompare(b))
-      .slice(0, 5)
-      .join(", ");
 
-    return `Search by Patient ${attributes}...`;
-
-  },
-  [   config,
-    searchableAttributes,
-    textTransform,
-    vertexOptions,])
   const attributesOptions = useMemo(() => {
-    /*
     if (selectedVertexType === "__all") {
       const attributes = uniqBy(
         searchableAttributes.map(attr => ({
@@ -155,10 +125,10 @@ const usePatientSearch = ({ isOpen }: { isOpen: boolean }) => {
       );
       return [{ label: "All", value: "__all" }, ...attributes];
     }
-*/
+
     const attributes = uniqBy(
       config
-        ?.getVertexTypeSearchableAttributes('Patient')
+        ?.getVertexTypeSearchableAttributes(selectedVertexType)
         .map(attr => ({
           value: attr.name,
           label: attr.displayLabel || textTransform(attr.name),
@@ -166,18 +136,13 @@ const usePatientSearch = ({ isOpen }: { isOpen: boolean }) => {
       op => op.value
     );
     return [{ label: "All", value: "__all" }, ...attributes];
-  }, [config, searchableAttributes, 
-    //**selectedVertexType, 
-    textTransform]);
+  }, [config, searchableAttributes, selectedVertexType, textTransform]);
 
   const { enqueueNotification } = useNotification();
   const [isMount, setMount] = useState(false);
-//**
-/*  
+
   const vertexTypes =
     selectedVertexType === "__all" ? config?.vertexTypes : [selectedVertexType];
-    */
-  const vertexTypes = ['Patient']
   const searchByAttributes =
     selectedAttribute === "__all"
       ? uniq(searchableAttributes.map(attr => attr.name))
@@ -238,20 +203,18 @@ const usePatientSearch = ({ isOpen }: { isOpen: boolean }) => {
     setMount(true);
   }
 
-  //**
-  /* 
   useEffect(() => {
     setSelectedAttribute("__all");
   }, [selectedVertexType]);
-  */
+
   return {
     isFetching,
     debouncedSearchTerm,
-    //**onSearchTermChange,
-    //**onVertexOptionChange,
+    onSearchTermChange,
+    onVertexOptionChange,
     searchPlaceholder,
     searchTerm,
-    //**selectedVertexType,
+    selectedVertexType,
     vertexOptions,
     selectedAttribute,
     attributesOptions,

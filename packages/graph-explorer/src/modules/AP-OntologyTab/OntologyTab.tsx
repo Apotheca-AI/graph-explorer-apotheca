@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useState, useMemo, Children } from "react";
 import { useRecoilValue } from "recoil";
 import type { ModuleContainerHeaderProps } from "../../components";
 import { ModuleContainer, ModuleContainerHeader } from "../../components";
@@ -10,7 +10,12 @@ import {
   nodesSelectedIdsAtom,
 } from "../../core/StateProvider/nodes";
 import useTranslations from "../../hooks/useTranslations";
-import NodeExpandContent from "./OntologyTabContent";
+
+//apotheca changes
+import Button from '../../components/Button/Button'
+import OntologyTabContent from "./OntologyTabContent";
+import {OntologyList} from './StoredOntologyList'
+import {OntologyListArrayType} from './OntologyListTypes'
 
 export type OntologyTabProps = Omit<
   ModuleContainerHeaderProps,
@@ -29,37 +34,17 @@ const OntologyTab = ({ title = "Ontologies", ...headerProps }: OntologyTabProps)
     return nodes.find(node => nodesSelectedIds.has(node.data.id));
   }, [nodes, nodesSelectedIds]);
 
+
+
   return (
     <ModuleContainer>
       <ModuleContainerHeader
-        title={title}
+        title={'Ontologies'}
         variant={"sidebar"}
         {...headerProps}
       />
-      {nodesSelectedIds.size === 0 && edgesSelectedIds.size === 0 && (
-        <PanelEmptyState
-          icon={<GraphIcon />}
-          title={t("node-expand.no-selection-title")}
-          subtitle={t("node-expand.no-selection-subtitle")}
-        />
-      )}
-      {nodesSelectedIds.size === 0 && edgesSelectedIds.size > 0 && (
-        <PanelEmptyState
-          icon={<GraphIcon />}
-          title={t("node-expand.edge-selection-title")}
-          subtitle={t("node-expand.edge-selection-subtitle")}
-        />
-      )}
-      {nodesSelectedIds.size > 1 && (
-        <PanelEmptyState
-          icon={<GraphIcon />}
-          title={t("node-expand.multi-selection-title")}
-          subtitle={t("node-expand.multi-selection-subtitle")}
-        />
-      )}
-      {nodesSelectedIds.size === 1 && selectedNode && (
-        <NodeExpandContent vertex={selectedNode} />
-      )}
+      <OntologyTabContent OntologyList={OntologyList}/>
+
     </ModuleContainer>
   );
 };

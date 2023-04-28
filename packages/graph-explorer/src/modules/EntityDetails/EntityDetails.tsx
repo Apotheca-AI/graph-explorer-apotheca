@@ -80,7 +80,8 @@ const EntityDetails = ({
       {noHeader !== true && (
         <ModuleContainerHeader
           title={title}
-          variant={"sidebar"}
+          variant={"sidebar"}/*
+          Apotheca changes, removed button for auto opening of sidebar
           actions={[
             {
               label: "Automatically open on selection",
@@ -89,7 +90,7 @@ const EntityDetails = ({
               icon: <AutoFitLeftIcon />,
               active: userLayout.detailsAutoOpenOnSelection,
             },
-          ]}
+          ]}*/
           onActionClick={onAction}
           {...headerProps}
         />

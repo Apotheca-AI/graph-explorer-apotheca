@@ -41,7 +41,7 @@ const defaultStyles = (pfx: string): ThemeStyleFn => ({ theme, isDarkTheme }) =>
 
     .${pfx}-panel-container {
       display: flex;
-      height: min(600px, 90vh);
+      height: max(600px, 90vh);
       overflow: hidden;
       max-width: 300px;
       padding-top: ${theme.spacing.base};
@@ -80,12 +80,14 @@ const defaultStyles = (pfx: string): ThemeStyleFn => ({ theme, isDarkTheme }) =>
 
         .${pfx}-search-results-grid {
           display: flex;
+          flex-direction: column;
           height: 100%;
           width: 100%;
           gap: ${theme.spacing.base};
 
           .${pfx}-search-results-advanced-list {
             width: 300px;
+            height:50vh;
             background: ${theme.palette.background.default};
             .${pfx}-advanced-list-item {
               background: ${theme.palette.background.secondary};
@@ -97,7 +99,9 @@ const defaultStyles = (pfx: string): ThemeStyleFn => ({ theme, isDarkTheme }) =>
 
           .${pfx}-carousel {
             flex-grow: 1;
-            overflow: hidden;
+            height: 50vh;
+            width: 300px;
+            overflow-y: scroll;
           }
 
           .${pfx}-graph-remove-icon {

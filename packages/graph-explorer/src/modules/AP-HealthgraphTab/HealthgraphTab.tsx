@@ -13,7 +13,7 @@ import useTranslations from "../../hooks/useTranslations";
 import HealthgraphTabContent from "./HealthgraphTabContent";
 
 //APOTHECA CHANGES
-import KeywordSearch from "../../modules/KeywordSearch/KeywordSearch";
+import KeywordSearch from "../KeywordSearch/KeywordSearch";
 
 export type HealthgraphTabProps = Omit<
   ModuleContainerHeaderProps,

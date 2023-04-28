@@ -15,18 +15,18 @@ import useNeighborsOptions from "../../hooks/useNeighborsOptions";
 import useTextTransform from "../../hooks/useTextTransform";
 import useTranslations from "../../hooks/useTranslations";
 import NeighborsList from "../common/NeighborsList/NeighborsList";
-import defaultStyles from "./OntologyTabContent.styles";
-import NodeExpandFilters, { NodeExpandFilter } from "./OntologyTabFilters";
+import defaultStyles from "./PatientTabContent.styles";
+import PatientExpandFilters, { PatientExpandFilter } from "./PatientTabFilters";
 
-export type OntologyTabContentProps = {
+export type PatientTabContentProps = {
   classNamePrefix?: string;
   vertex: Vertex;
 };
 
-const OntologyTabContent = ({
+const PatientTabContent = ({
   classNamePrefix = "ft",
   vertex,
-}: OntologyTabContentProps) => {
+}: PatientTabContentProps) => {
   const config = useConfiguration();
   const t = useTranslations();
   const expandNode = useExpandNode();
@@ -41,7 +41,7 @@ const OntologyTabContent = ({
   const [selectedType, setSelectedType] = useState<string>(
     neighborsOptions[0]?.value
   );
-  const [filters, setFilters] = useState<Array<NodeExpandFilter>>([]);
+  const [filters, setFilters] = useState<Array<PatientExpandFilter>>([]);
   const [limit, setLimit] = useState<number | null>(null);
 
   const onExpandClick = useCallback(async () => {
@@ -80,9 +80,11 @@ const OntologyTabContent = ({
   const getDisplayNames = useDisplayNames();
   const { name } = getDisplayNames(vertex);
   const vtConfig = config?.getVertexTypeConfig(vertex.data.type);
+  //console.log(`here is what i want to print out ${vertex.data.types}`)
   return (
     <div className={styleWithTheme(defaultStyles(classNamePrefix))}>
-      <div className={pfx("header")}>
+      
+      {vertex.data.type === 'Patient' && (<div className={pfx("header")}>
         {vtConfig?.iconUrl && (
           <div
             className={pfx("icon")}
@@ -103,15 +105,16 @@ const OntologyTabContent = ({
           </div>
           <div>{name}</div>
         </div>
-      </div>
-      {vertex.data.neighborsCount === 0 && (
+      </div>)}
+      {vertex.data.type !== 'Patient'&& (
         <PanelEmptyState
-          icon={<GraphIcon />}
-          title={t("node-expand.no-connections-title")}
-          subtitle={t("node-expand.no-connections-subtitle")}
-        />
+        icon={<GraphIcon />}
+        title={t("Non Patient Selection")}
+        subtitle={t("Please select a Patient Node")}
+      />
       )}
-      {vertex.data.neighborsCount !== 0 && (
+      
+      {vertex.data.type === 'Patient' && (
         <>
           <NeighborsList vertex={vertex} classNamePrefix={classNamePrefix} />
           {!vertex.data.__unfetchedNeighborCount && (
@@ -122,7 +125,7 @@ const OntologyTabContent = ({
             />
           )}
           {!!vertex.data.__unfetchedNeighborCount && (
-            <NodeExpandFilters
+            <PatientExpandFilters
               classNamePrefix={classNamePrefix}
               neighborsOptions={neighborsOptions}
               selectedType={selectedType}
@@ -160,4 +163,4 @@ const OntologyTabContent = ({
   );
 };
 
-export default OntologyTabContent;
+export default PatientTabContent;

@@ -13,7 +13,7 @@ import useTranslations from "../../hooks/useTranslations";
 import PatientTabContent from "./PatientTabContent";
 
 //APOTHECA CHANGES
-import PatientSearch from "../../modules/PatientSearch/PatientSearch";
+import PatientSearch from "../AP-PatientSearch/PatientSearch";
 
 export type PatientTabProps = Omit<
   ModuleContainerHeaderProps,
@@ -21,7 +21,7 @@ export type PatientTabProps = Omit<
 > & {
   title?: ModuleContainerHeaderProps["title"];
 };
-
+///NEED TO START HERE TO SEE IF I CAN IMPLEMENT THE MULTI FILTER FEATURE
 const PatientTab = ({ title = "Patients", ...headerProps }: PatientTabProps) => {
   const t = useTranslations();
   const nodes = useRecoilValue(nodesAtom);
@@ -30,8 +30,9 @@ const PatientTab = ({ title = "Patients", ...headerProps }: PatientTabProps) => 
 
   const selectedNode = useMemo(() => {
     return nodes.find(node => nodesSelectedIds.has(node.data.id));
-  }, [nodes, nodesSelectedIds]);
-
+  }, [nodes, nodesSelectedIds,]);
+  console.log('hereherher')
+  console.log(selectedNode)
   return (
     <ModuleContainer>
       
@@ -64,7 +65,14 @@ const PatientTab = ({ title = "Patients", ...headerProps }: PatientTabProps) => 
           subtitle={t("node-expand.multi-selection-subtitle")}
         />
       )}
-      {nodesSelectedIds.size === 1 && selectedNode && (
+      {nodesSelectedIds.size === 1 && selectedNode && selectedNode.data.type !== 'Patient' && (
+        <PanelEmptyState
+          icon={<GraphIcon />}
+          title={t("Non Patient Selection")}
+          subtitle={t("Please select a patient")}
+        />
+      )}
+      {nodesSelectedIds.size === 1 && selectedNode  && selectedNode.data.type === 'Patient' && (
         <PatientTabContent vertex={selectedNode} />
       )}
     </ModuleContainer>

@@ -60,12 +60,12 @@ const PatientSearch = ({
 
   const {
     isFetching,
-    //**onSearchTermChange,
-    //**onVertexOptionChange,
+    onSearchTermChange,
+    onVertexOptionChange,
     searchPlaceholder,
     searchResults,
     searchTerm,
-    //**selectedVertexType,
+    selectedVertexType,
     vertexOptions,
     selectedAttribute,
     attributesOptions,
@@ -201,9 +201,7 @@ const PatientSearch = ({
   const currentTotal = useMemo(() => {
     if (!config?.vertexTypes.length) {
       return null;
-    }
-    //** 
-/*
+    } 
     if (selectedVertexType === "__all") {
       let total = 0;
 
@@ -218,12 +216,12 @@ const PatientSearch = ({
 
       return total;
     }
-    */
-
+    
+// use this maybe for the selection of the vertex type
     const vtConfig = config?.getVertexTypeConfig('Patient');
     return vtConfig?.total;
   }, [config, 
-    //**selectedVertexType
+    selectedVertexType
   ]);
 
   useEffect(() => {
@@ -233,7 +231,7 @@ const PatientSearch = ({
     // so its initial value is valid for resetting the selection
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    //**selectedVertexType, 
+    selectedVertexType, 
     searchTerm]);
 
   const carouselRef = useRef<CarouselRef>(null);
@@ -282,8 +280,8 @@ const PatientSearch = ({
               labelPlacement={"inner"}
               hideError={true}
               options={vertexOptions}
-              value={'Patient'}
-              onChange={()=>{}}
+              value={selectedVertexType}
+              onChange={onVertexOptionChange}
               menuWidth={100}
             />
             <Select
@@ -305,9 +303,6 @@ const PatientSearch = ({
               onPress={onInputFocusChange(false)}
             />
             
-            
-
-
           </div>
           <Input
               className={pfx("search-input")}
@@ -315,7 +310,7 @@ const PatientSearch = ({
               hideError={true}
               autoFocus={true}
               value={searchTerm}
-              //onChange={onSearchTermChange}
+              onChange={onSearchTermChange}
               placeholder={searchPlaceholder}
             />
             </div>
@@ -386,7 +381,7 @@ const PatientSearch = ({
                 {selection.state.size === 0 && (
                   <PanelEmptyState
                     className={pfx("node-preview")}
-                    title="Select an item to preview"
+                    title="Patient"
                     icon={<GraphIcon />}
                   />
                 )}
