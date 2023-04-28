@@ -47,9 +47,12 @@ import NodesStyling from "../../modules/NodesStyling/NodesStyling";
 import TopBarWithLogo from "../common/TopBarWithLogo";
 import defaultStyles from "./GraphExplorer.styles";
 ///========Apotheca Sidebar content styling======================///
+
 import HealthgraphTab from "../../modules/AP-HealthgraphTab";
 import PatientTab from "../../modules/AP-PatientTab";
 import OntologyTab from "../../modules/AP-OntologyTab";
+
+
 
 
 export type GraphViewProps = {
