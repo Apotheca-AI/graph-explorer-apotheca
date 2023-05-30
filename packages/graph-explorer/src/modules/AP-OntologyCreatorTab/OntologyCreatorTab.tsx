@@ -1,4 +1,4 @@
-import { useState, useMemo, Children } from "react";
+import { useMemo } from "react";
 import { useRecoilValue } from "recoil";
 import type { ModuleContainerHeaderProps } from "../../components";
 import { ModuleContainer, ModuleContainerHeader } from "../../components";
@@ -10,21 +10,19 @@ import {
   nodesSelectedIdsAtom,
 } from "../../core/StateProvider/nodes";
 import useTranslations from "../../hooks/useTranslations";
+import OntologyCreatorTabContent from "./OntologyCreatorTabContent";
 
-//apotheca changes
-import Button from '../../components/Button/Button'
-import OntologyTabContent from "./OntologyTabContent";
-import {OntologyList} from './StoredOntologyList'
-import {OntologyListArrayType} from './OntologyListTypes'
+//APOTHECA CHANGES
 
-export type OntologyTabProps = Omit<
+
+export type OntologyCreatorTabProps = Omit<
   ModuleContainerHeaderProps,
   "title" | "sidebar"
 > & {
   title?: ModuleContainerHeaderProps["title"];
 };
 
-const OntologyTab = ({ title = "Ontologies", ...headerProps }: OntologyTabProps) => {
+const OntologyCreatorTab = ({ title = "Ontology Creator", ...headerProps }: OntologyCreatorTabProps) => {
   const t = useTranslations();
   const nodes = useRecoilValue(nodesAtom);
   const nodesSelectedIds = useRecoilValue(nodesSelectedIdsAtom);
@@ -33,20 +31,30 @@ const OntologyTab = ({ title = "Ontologies", ...headerProps }: OntologyTabProps)
   const selectedNode = useMemo(() => {
     return nodes.find(node => nodesSelectedIds.has(node.data.id));
   }, [nodes, nodesSelectedIds]);
-
-
+  //console.log('here are nodes')
+  //console.log(nodes)
 
   return (
     <ModuleContainer>
+      
       <ModuleContainerHeader
-        title={'Ontologies'}
+        title={title}
         variant={"sidebar"}
         {...headerProps}
       />
-      <OntologyTabContent OntologyList={OntologyList}/>
+      {nodesSelectedIds.size === 0 && selectedNode && (
 
+  <OntologyCreatorTabContent vertex={selectedNode} vertexArray={nodes} />
+      )}
+      {nodesSelectedIds.size === 0 && selectedNode && (
+        <OntologyCreatorTabContent vertex={selectedNode} vertexArray={nodes} />
+      )}
+
+      {nodes !== undefined && selectedNode && (
+        <OntologyCreatorTabContent vertex={selectedNode} vertexArray={nodes} />
+      )}
     </ModuleContainer>
   );
 };
 
-export default OntologyTab;
+export default OntologyCreatorTab;

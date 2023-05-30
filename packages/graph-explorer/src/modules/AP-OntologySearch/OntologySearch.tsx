@@ -15,10 +15,12 @@ import {
   LoadingSpinner,
   PanelEmptyState,
   RemoveIcon,
-  SearchSadIcon,
+  SearchIcon,
   Select,
+  OntologySelect,
   VertexIcon,
 } from "../../components";
+
 import { CarouselRef } from "../../components/Carousel/Carousel";
 import HumanReadableNumberFormatter from "../../components/HumanReadableNumberFormatter";
 import RemoveFromCanvasIcon from "../../components/icons/RemoveFromCanvasIcon";
@@ -34,19 +36,21 @@ import useTextTransform from "../../hooks/useTextTransform";
 import useTranslations from "../../hooks/useTranslations";
 
 import NodeDetail from "../EntityDetails/NodeDetail";
-import defaultStyles from "./PatientSearch.styles";
+import defaultStyles from "./OntologySearch.styles";
 import toAdvancedList from "./toAdvancedList";
-import usePatientSearch from "./usePatientSearch";
+import useOntologySearch from "./useOntologySearch";
 
-export type PatientSearchProps = {
+import { OntologyList } from "../AP-OntologyListTab/StoredOntologyList";
+
+export type KeywordSearchProps = {
   classNamePrefix?: string;
   className?: string;
 };
 
-const PatientSearch = ({
+const KeywordSearch = ({
   classNamePrefix = "ft",
   className,
-}: PatientSearchProps) => {
+}: KeywordSearchProps) => {
   const config = useConfiguration();
   const t = useTranslations();
   const fetchNode = useFetchNode();
@@ -62,7 +66,7 @@ const PatientSearch = ({
     isFetching,
     onSearchTermChange,
     onVertexOptionChange,
-    searchPlaceholder,
+    
     searchResults,
     searchTerm,
     selectedVertexType,
@@ -70,7 +74,14 @@ const PatientSearch = ({
     selectedAttribute,
     attributesOptions,
     onAttributeOptionChange,
-  } = usePatientSearch({
+
+    ontologyOptions,
+    selectedOntologyName,
+    onOntologyChange,
+    ontologySearchSCTIDArray,
+    fetchedData,
+
+  } = useOntologySearch({
     isOpen: isFocused,
   });
 
@@ -84,17 +95,28 @@ const PatientSearch = ({
   const ref = useClickOutside(onInputFocusChange(false));
   useHotkeys([["Escape", onInputFocusChange(false)]]);
 
-  const noResultsAfterFetching = !isFetching && searchResults.length === 0;
-  const withResultsAfterFetching = !isFetching && searchResults.length > 0;
+  const noResultsAfterFetching = !isFetching && fetchedData.length === 0;
+  const withResultsAfterFetching = !isFetching && fetchedData.length > 0;
   const getDisplayNames = useDisplayNames();
   const textTransform = useTextTransform();
+  //console.log('outside here')
+  //console.log(fetchedData)
   const resultItems = useMemo(() => {
-    return toAdvancedList(searchResults, {
+    return toAdvancedList(fetchedData, {
+      
+     
+      
+      /*
       getGroupLabel: vertex => {
         const vtConfig = config?.getVertexTypeConfig(vertex.data.type);
         return vtConfig?.displayLabel || textTransform(vertex.data.type);
-      },
+      },*/
+
+      /*getItem: ontology =>{
+
+      }*/
       getItem: vertex => {
+        //console.log(fetchedData[0].data.attributes)
         const vtConfig = config?.getVertexTypeConfig(vertex.data.type);
         const { name, longName } = getDisplayNames(vertex);
         return {
@@ -104,7 +126,6 @@ const PatientSearch = ({
               color: ${vtConfig?.color} !important;
             }
           `,
-          group: vertex.data.type,
           id: vertex.data.id,
           title: name,
           subtitle: longName,
@@ -151,7 +172,7 @@ const PatientSearch = ({
       },
     });
   }, [
-    searchResults,
+    fetchedData,
     config,
     getDisplayNames,
     textTransform,
@@ -174,7 +195,7 @@ const PatientSearch = ({
   };
 
   const getNodeSearchedById = (nodeId: string): Vertex | undefined => {
-    return searchResults.find(result => result.data.id === nodeId);
+    return fetchedData.find(result => result.data.id === nodeId);
   };
 
   const addSelectedNodesMessage = () => {
@@ -201,7 +222,8 @@ const PatientSearch = ({
   const currentTotal = useMemo(() => {
     if (!config?.vertexTypes.length) {
       return null;
-    } 
+    }
+
     if (selectedVertexType === "__all") {
       let total = 0;
 
@@ -216,13 +238,10 @@ const PatientSearch = ({
 
       return total;
     }
-    
-// use this maybe for the selection of the vertex type
-    const vtConfig = config?.getVertexTypeConfig('Patient');
+
+    const vtConfig = config?.getVertexTypeConfig(selectedVertexType);
     return vtConfig?.total;
-  }, [config, 
-    selectedVertexType
-  ]);
+  }, [config, selectedVertexType]);
 
   useEffect(() => {
     selection.clear();
@@ -230,9 +249,7 @@ const PatientSearch = ({
     // selection.clear does not have deps,
     // so its initial value is valid for resetting the selection
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    selectedVertexType, 
-    searchTerm]);
+  }, [selectedVertexType, searchTerm]);
 
   const carouselRef = useRef<CarouselRef>(null);
   useEffect(() => {
@@ -245,68 +262,24 @@ const PatientSearch = ({
       id={"keyword-search-module"}
       className={cx(styleWithTheme(defaultStyles(classNamePrefix)), className)}
     >
-      {!isFocused && (
-        <div className={pfx("bar-container")}>
-          <Input
-            className={pfx("search-input")}
-            aria-label={"Search box"}
-            hideError={true}
-            value={searchTerm}
-            placeholder={searchPlaceholder}
-            onFocus={onInputFocusChange(true)}
-            endAdornment={
-              isFetching ? (
-                <LoadingSpinner
-                  style={{ width: 24, height: 24 }}
-                  color={"var(--palette-primary-main)"}
-                />
-              ) : searchResults.length > 0 ? (
-                <div className={pfx("results-adornment")}>
-                  {searchResults.length} results
-                </div>
-              ) : undefined
-            }
-          />
-        </div>
-      )}
+
       {isFocused && (
-        <Card  className={pfx("panel-container")} elevation={3}>
-          <div>
+        <Card className={pfx("panel-container")} elevation={3}>
           <div className={pfx("search-controls")}>
             
-            <Select
+            <OntologySelect
               className={pfx("entity-select")}
-              label={t("keyword-search.node-type")}
+              label={'Ontology Select'}
               labelPlacement={"inner"}
               hideError={true}
-              options={vertexOptions}
-              value={selectedVertexType}
-              onChange={onVertexOptionChange}
-              menuWidth={100}
+              selectionMode={"single"}
+              options={ontologyOptions}
+              value={selectedOntologyName}
+              onChange={onOntologyChange}
+              menuWidth={200}   
             />
-            <Select
-              className={pfx("entity-select")}
-              label={t("keyword-search.node-attribute")}
-              labelPlacement={"inner"}
-              hideError={true}
-              options={attributesOptions}
-              value={selectedAttribute}
-              onChange={onAttributeOptionChange}
-              menuWidth={100}
-            />
-
             
           </div>
-          <Input
-              className={pfx("search-input")}
-              aria-label={"Search box"}
-              hideError={true}
-              autoFocus={true}
-              value={searchTerm}
-              onChange={onSearchTermChange}
-              placeholder={searchPlaceholder}
-            />
-            </div>
           <div className={pfx("search-results")}>
             {isFetching && (
               <PanelEmptyState
@@ -331,18 +304,19 @@ const PatientSearch = ({
             {noResultsAfterFetching && (
               <PanelEmptyState
                 classNamePrefix={classNamePrefix}
-                title={"No Results"}
-                subtitle={"Your criteria does not match with any record"}
-                icon={<SearchSadIcon />}
+                title={"Please Select an Ontology"}
+                subtitle={"Or build a new one in the Ontology Creator Tab"}
+                icon={<SearchIcon />}
               />
             )}
             {withResultsAfterFetching && (
               <div className={pfx("search-results-grid")}>
+                <></>
                 <AdvancedList
                   classNamePrefix={classNamePrefix}
                   className={pfx("search-results-advanced-list")}
                   items={resultItems}
-                  draggable={true}
+                  draggable={false}
                   defaultItemType={"graph-viewer__node"}
                   onItemClick={(event, item) => {
                     selection.toggle(item.id);
@@ -357,7 +331,7 @@ const PatientSearch = ({
                     className={pfx("carousel")}
                   >
                     {Array.from(selection.state).map(nodeId => {
-                      const node = searchResults.find(
+                      const node = fetchedData.find(
                         n => n.data.id === nodeId
                       );
 
@@ -374,7 +348,7 @@ const PatientSearch = ({
                 {selection.state.size === 0 && (
                   <PanelEmptyState
                     className={pfx("node-preview")}
-                    title="Patient"
+                    title="Select an item to preview"
                     icon={<GraphIcon />}
                   />
                 )}
@@ -383,7 +357,7 @@ const PatientSearch = ({
           </div>
           <div className={pfx("actions-footer")}>
             <span className={pfx("footer-text")}>
-              Search returned {searchResults.length} results
+              Search returned {fetchedData.length} results
               {currentTotal != null && " of "}
               {currentTotal != null && (
                 <HumanReadableNumberFormatter value={currentTotal} />
@@ -406,6 +380,15 @@ const PatientSearch = ({
                   {addSelectedNodesMessage()}
                 </div>
               </IconButton>
+              <IconButton
+                className={pfx("actions-button")}
+                icon={<AddCircleIcon />}
+                onPress={()=>{}}
+              >eeeeee
+                <div className={pfx("icon-button-name")}>
+                  {/*console.log(ontologySearchResults)*/}
+                </div>
+              </IconButton>
             </div>
           </div>
         </Card>
@@ -414,4 +397,4 @@ const PatientSearch = ({
   );
 };
 
-export default PatientSearch;
+export default KeywordSearch;

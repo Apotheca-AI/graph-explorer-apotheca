@@ -40,6 +40,39 @@ const defaultStyles = (pfx?: string): ThemeStyleFn => ({ theme }) =>
           word-break: break-word;
         }
       }
+      .${pfx}-search-results {
+        align-items: center;
+        display: flex;
+        flex-grow: 1;
+        height: 0;
+        padding: ${theme.spacing["2x"]} 0;
+
+        .${pfx}-search-results-grid {
+          display: flex;
+          flex-direction: column;
+          align-items:center;
+          height: 100%;
+          width: 100%;
+          gap: ${theme.spacing.base};
+
+          .${pfx}-search-results-advanced-list {
+            width: 300px;
+            height:50vh;
+            background: ${theme.palette.background.default};
+            .${pfx}-advanced-list-item {
+              background: ${theme.palette.background.secondary};
+              .${pfx}-content {
+                background: ${theme.palette.background.secondary};
+              }
+            }
+          }
+
+          .${pfx}-carousel {
+            flex-grow: 1;
+            height: 50vh;
+            width: 300px;
+            overflow-y: scroll;
+          }
     }
 
     .${pfx}-grow {
@@ -119,6 +152,7 @@ const defaultStyles = (pfx?: string): ThemeStyleFn => ({ theme }) =>
       justify-content: flex-end;
       padding: ${theme.spacing["4x"]};
     }
+    
   `;
 
 export default defaultStyles;

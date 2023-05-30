@@ -34,7 +34,6 @@ const HealthGraphTab = ({ title = "Health Graph", ...headerProps }: HealthgraphT
 
   return (
     <ModuleContainer>
-      <KeywordSearch/>
       <ModuleContainerHeader
         title={title}
         variant={"sidebar"}
