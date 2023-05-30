@@ -10,19 +10,19 @@ import {
   nodesSelectedIdsAtom,
 } from "../../core/StateProvider/nodes";
 import useTranslations from "../../hooks/useTranslations";
-import HealthgraphTabContent from "./HealthgraphTabContent";
+import OntologyCreatorTabContent from "./OntologyCreatorTabContent";
 
 //APOTHECA CHANGES
-import KeywordSearch from "../KeywordSearch/KeywordSearch";
 
-export type HealthgraphTabProps = Omit<
+
+export type OntologyCreatorTabProps = Omit<
   ModuleContainerHeaderProps,
   "title" | "sidebar"
 > & {
   title?: ModuleContainerHeaderProps["title"];
 };
 
-const HealthGraphTab = ({ title = "Health Graph", ...headerProps }: HealthgraphTabProps) => {
+const OntologyCreatorTab = ({ title = "Ontology Creator", ...headerProps }: OntologyCreatorTabProps) => {
   const t = useTranslations();
   const nodes = useRecoilValue(nodesAtom);
   const nodesSelectedIds = useRecoilValue(nodesSelectedIdsAtom);
@@ -31,42 +31,30 @@ const HealthGraphTab = ({ title = "Health Graph", ...headerProps }: HealthgraphT
   const selectedNode = useMemo(() => {
     return nodes.find(node => nodesSelectedIds.has(node.data.id));
   }, [nodes, nodesSelectedIds]);
+  //console.log('here are nodes')
+  //console.log(nodes)
 
   return (
     <ModuleContainer>
-      <KeywordSearch/>
-
+      
       <ModuleContainerHeader
         title={title}
         variant={"sidebar"}
         {...headerProps}
       />
-      {nodesSelectedIds.size === 0 && edgesSelectedIds.size === 0 && (
-        <PanelEmptyState
-          icon={<GraphIcon />}
-          title={t("node-expand.no-selection-title")}
-          subtitle={t("node-expand.no-selection-subtitle")}
-        />
+      {nodesSelectedIds.size === 0 && selectedNode && (
+
+  <OntologyCreatorTabContent vertex={selectedNode} vertexArray={nodes} />
       )}
-      {nodesSelectedIds.size === 0 && edgesSelectedIds.size > 0 && (
-        <PanelEmptyState
-          icon={<GraphIcon />}
-          title={t("node-expand.edge-selection-title")}
-          subtitle={t("node-expand.edge-selection-subtitle")}
-        />
+      {nodesSelectedIds.size === 0 && selectedNode && (
+        <OntologyCreatorTabContent vertex={selectedNode} vertexArray={nodes} />
       )}
-      {nodesSelectedIds.size > 1 && (
-        <PanelEmptyState
-          icon={<GraphIcon />}
-          title={t("node-expand.multi-selection-title")}
-          subtitle={t("node-expand.multi-selection-subtitle")}
-        />
-      )}
-      {nodesSelectedIds.size === 1 && selectedNode && (
-        <HealthgraphTabContent vertex={selectedNode} />
+
+      {nodes !== undefined && selectedNode && (
+        <OntologyCreatorTabContent vertex={selectedNode} vertexArray={nodes} />
       )}
     </ModuleContainer>
   );
 };
 
-export default HealthGraphTab;
+export default OntologyCreatorTab;

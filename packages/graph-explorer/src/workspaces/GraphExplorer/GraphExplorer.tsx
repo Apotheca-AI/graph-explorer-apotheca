@@ -21,6 +21,7 @@ import {
   HealthgraphIcon,
   PatientsIcon,
   OntologiesIcon,
+  OntologyCreatorIcon
 } from "../../components/icons";
 import GridIcon from "../../components/icons/GridIcon";
 import Workspace from "../../components/Workspace";
@@ -50,10 +51,8 @@ import defaultStyles from "./GraphExplorer.styles";
 
 import HealthgraphTab from "../../modules/AP-HealthgraphTab";
 import PatientTab from "../../modules/AP-PatientTab";
-import OntologyTab from "../../modules/AP-OntologyTab";
-
-
-
+import OntologyListTab from "../../modules/AP-OntologyListTab";
+import OntologyCreatorTab from "../../modules/AP-OntologyCreatorTab/OntologyCreatorTab";
 
 export type GraphViewProps = {
   classNamePrefix?: string;
@@ -439,10 +438,16 @@ const GraphExplorer = ({ classNamePrefix = "ft" }: GraphViewProps) => {
           active={userLayoutLeft.activeSidebarItemLeft === "patients"}
         />        
         <Workspace.SideBarLeft.Button
-          tooltipText={"Ontologies"}
+          tooltipText={"Ontology List"}
           icon={<OntologiesIcon />}
           onPress={toggleSidebarLeft("ontologies")}
           active={userLayoutLeft.activeSidebarItemLeft === "ontologies"}
+        />
+        <Workspace.SideBarLeft.Button
+          tooltipText={"Ontology Creator"}
+          icon={<OntologyCreatorIcon />}
+          onPress={toggleSidebarLeft("ontologyCreator")}
+          active={userLayoutLeft.activeSidebarItemLeft === "ontologyCreator"}
         />
 
 
@@ -469,7 +474,10 @@ const GraphExplorer = ({ classNamePrefix = "ft" }: GraphViewProps) => {
             <PatientTab onClose={closeSidebarLeft} />
           )}          
           {userLayout.activeSidebarItemLeft === "ontologies" && (
-            <OntologyTab onClose={closeSidebarLeft} />
+            <OntologyListTab onClose={closeSidebarLeft} />
+          )}
+          {userLayout.activeSidebarItemLeft === "ontologyCreator" && (
+            <OntologyCreatorTab onClose={closeSidebarLeft} />
           )}
           {userLayout.activeSidebarItemLeft === "namespaces" && (
             <Namespaces onClose={closeSidebarLeft} />

@@ -31,8 +31,8 @@ const PatientTab = ({ title = "Patients", ...headerProps }: PatientTabProps) => 
   const selectedNode = useMemo(() => {
     return nodes.find(node => nodesSelectedIds.has(node.data.id));
   }, [nodes, nodesSelectedIds,]);
-  console.log('hereherher')
-  console.log(selectedNode)
+  //console.log(selectedNode)
+
   return (
     <ModuleContainer>
       

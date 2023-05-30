@@ -77,3 +77,4 @@ export { default as ApothecaLogo } from './ApothecaLogo';
 export { default as HealthgraphIcon } from './HealthgraphIcon';
 export { default as PatientsIcon } from './PatientsIcon';
 export { default as OntologiesIcon } from './OntologiesIcon';
+export { default as OntologyCreatorIcon } from './OntologyCreatorIcon' 

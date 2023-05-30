@@ -64,3 +64,8 @@ export { default as VertexIcon } from "./VertexIcon";
 
 export { default as Workspace } from "./Workspace";
 export * from "./Workspace";
+
+//Apotheca Changes
+
+export {default as OntologySelect } from  './OntologySelect'
+export * from './OntologySelect'
