@@ -82,6 +82,7 @@ const defaultStyles = (pfx: string): ThemeStyleFn => ({ theme, isDarkTheme }) =>
           display: flex;
           flex-direction: column;
           align-items:center;
+
           height: 100%;
           width: 100%;
           gap: ${theme.spacing.base};

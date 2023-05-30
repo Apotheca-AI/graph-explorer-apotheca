@@ -32,6 +32,7 @@ const PatientTab = ({ title = "Patients", ...headerProps }: PatientTabProps) => 
     return nodes.find(node => nodesSelectedIds.has(node.data.id));
   }, [nodes, nodesSelectedIds,]);
   //console.log(selectedNode)
+
   return (
     <ModuleContainer>
       

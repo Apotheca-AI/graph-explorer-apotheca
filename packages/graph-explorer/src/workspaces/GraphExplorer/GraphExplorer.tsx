@@ -54,9 +54,6 @@ import PatientTab from "../../modules/AP-PatientTab";
 import OntologyListTab from "../../modules/AP-OntologyListTab";
 import OntologyCreatorTab from "../../modules/AP-OntologyCreatorTab/OntologyCreatorTab";
 
-
-
-
 export type GraphViewProps = {
   classNamePrefix?: string;
 };

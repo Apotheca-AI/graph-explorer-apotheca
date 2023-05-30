@@ -143,6 +143,7 @@ const PatientSearch = ({
               onPress={() => {
                 fetchNode(vertex);
                 setInputFocused(true);
+
               }}
             />
           ),
@@ -187,6 +188,7 @@ const PatientSearch = ({
   const handleOnClose = useCallback(() => {
     selection.clear();
     setInputFocused(true);
+
   }, [selection]);
 
   const handleAddEntities = () => {
@@ -294,7 +296,6 @@ const PatientSearch = ({
               onChange={onAttributeOptionChange}
               menuWidth={100}
             />
-
             
           </div>
           <Input
