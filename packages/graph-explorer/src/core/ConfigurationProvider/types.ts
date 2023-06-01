@@ -3,8 +3,6 @@ import {
   VertexPreferences,
 } from "../StateProvider/userPreferences";
 
-import { OntologyListArrayType } from "../../modules/AP-OntologyTab/OntologyListTypes";
-
 export type AttributeConfig = {
   /**
    * Name of the attribute in the DB schema
@@ -184,7 +182,6 @@ export type RawConfiguration = {
    * Mark as created from a file
    */
   __fileBase?: boolean;
-  OntologyData?:OntologyListArrayType
 };
 
 export type ConfigurationContextProps = RawConfiguration & {

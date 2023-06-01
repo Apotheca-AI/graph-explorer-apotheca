@@ -78,6 +78,7 @@ const KeywordSearch = ({
     ontologyOptions,
     selectedOntologyName,
     onOntologyChange,
+    ontologySearchSCTIDArray,
     fetchedData,
 
   } = useOntologySearch({
@@ -217,14 +218,6 @@ const KeywordSearch = ({
     fetchNode(nodes);
     handleOnClose();
   };
-
-  // fxn for button to select entire list
-  const setAllActive =()=> {
-    
-    setEntities
-  }
-
-
 
   const currentTotal = useMemo(() => {
     if (!config?.vertexTypes.length) {
@@ -390,9 +383,8 @@ const KeywordSearch = ({
               <IconButton
                 className={pfx("actions-button")}
                 icon={<AddCircleIcon />}
-                onPress={setAllActive}
-              >set all active
-
+                onPress={()=>{}}
+              >eeeeee
                 <div className={pfx("icon-button-name")}>
                   {/*console.log(ontologySearchResults)*/}
                 </div>

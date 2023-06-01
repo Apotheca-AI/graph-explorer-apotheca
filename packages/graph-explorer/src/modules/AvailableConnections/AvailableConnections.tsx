@@ -83,13 +83,6 @@ const AvailableConnections = ({
           displayLabel: fileContent.displayLabel,
           connection: fileContent.connection,
         });
-
-        // below adds the locally stored ontologies from the imported connection data
-        console.log('here is file content')
-        console.log(JSON.stringify(fileContent.OntologyData))
-        console.log(fileContent.OntologyData)
-
-        localStorage.setItem('OntologyData', JSON.stringify(fileContent.OntologyData))
         return updatedConfig;
       });
       set(schemaAtom, prevSchema => {
