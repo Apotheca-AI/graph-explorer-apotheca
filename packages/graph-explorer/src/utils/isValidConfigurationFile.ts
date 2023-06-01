@@ -50,7 +50,7 @@ const isValidConfigurationFile = (
   data: any
 ): data is Pick<
   ConfigurationContextProps,
-  "id" | "displayLabel" | "connection" | "schema" | "OntologyData"
+  "id" | "displayLabel" | "connection" | "schema"
 > => {
   if (!data.id || !data.connection || !data.schema) {
     return false;

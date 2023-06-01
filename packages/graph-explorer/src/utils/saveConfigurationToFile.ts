@@ -18,7 +18,6 @@ const saveConfigurationToFile = (config: ConfigurationContextProps) => {
       })),
       lastUpdate: config.schema?.lastUpdate?.toISOString(),
     },
-    OntologyData:JSON.parse(localStorage.OntologyData)
   };
 
   const fileToSave = new Blob([JSON.stringify(exportableConfig)], {
