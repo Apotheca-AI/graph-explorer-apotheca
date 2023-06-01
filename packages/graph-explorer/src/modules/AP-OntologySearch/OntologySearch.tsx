@@ -225,6 +225,7 @@ const KeywordSearch = ({
   }
 
 
+
   const currentTotal = useMemo(() => {
     if (!config?.vertexTypes.length) {
       return null;
@@ -391,6 +392,7 @@ const KeywordSearch = ({
                 icon={<AddCircleIcon />}
                 onPress={setAllActive}
               >set all active
+
                 <div className={pfx("icon-button-name")}>
                   {/*console.log(ontologySearchResults)*/}
                 </div>

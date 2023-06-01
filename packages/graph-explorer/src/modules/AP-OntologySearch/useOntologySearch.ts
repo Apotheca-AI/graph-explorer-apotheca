@@ -32,7 +32,6 @@ const useOntologySearch = ({ isOpen }: { isOpen: boolean }) => {
   const [selectedOntologyName, setSelectedOntologyName] = useState('')
   
   const [fetchedData, setFetchedData] = useState<Vertex[]>([]);
-
   const vertexOptions = useMemo(() => {
     const vertexOps =
       config?.vertexTypes
@@ -216,9 +215,6 @@ const useOntologySearch = ({ isOpen }: { isOpen: boolean }) => {
     const sctidValues = getVertexArrayByName(value as string)
 
     setFetchedData(sctidValues)
-
-
-    
   }, []);
 
   if (isOpen && !isMount) {
@@ -248,7 +244,7 @@ const useOntologySearch = ({ isOpen }: { isOpen: boolean }) => {
 
     onAttributeOptionChange,
     searchResults: data?.vertices || [],
-    
+
   };
 };
 
