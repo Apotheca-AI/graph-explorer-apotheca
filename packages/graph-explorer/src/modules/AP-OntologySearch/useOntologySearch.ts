@@ -32,8 +32,6 @@ const useOntologySearch = ({ isOpen }: { isOpen: boolean }) => {
   const [selectedOntologyName, setSelectedOntologyName] = useState('')
   
   const [fetchedData, setFetchedData] = useState<Vertex[]>([]);
-  const ontologySearchSCTIDArray:string[]  = []
-
   const vertexOptions = useMemo(() => {
     const vertexOps =
       config?.vertexTypes
@@ -134,7 +132,6 @@ const useOntologySearch = ({ isOpen }: { isOpen: boolean }) => {
   const { data, isFetching } = useQuery(
     [
       "keyword-search",
-      ontologySearchSCTIDArray,
       ontologyResultArray,
       debouncedSearchTerm,
       vertexTypes,
@@ -218,27 +215,6 @@ const useOntologySearch = ({ isOpen }: { isOpen: boolean }) => {
     const sctidValues = getVertexArrayByName(value as string)
 
     setFetchedData(sctidValues)
-
-    if (typeof sctidValues !== undefined){
-      //ontologySearchSCTIDArray.length=0
-      for (const ids of sctidValues){
-        ontologySearchSCTIDArray.push(ids.data.attributes.FSN.toString())
-        
-
-      }
-      // here this will result in an array of the sctid values we need, everything works up to this point
-     // console.log('here is your array of just fsn names')
-     // console.log(ontologySearchSCTIDArray)
-
-      // below does not seem to work
-      for (const item of ontologySearchSCTIDArray) {
-        setSearchTerm(item)
-      }
-      return ontologySearchSCTIDArray
-      
-    }
-
-    
   }, []);
 
   if (isOpen && !isMount) {
@@ -268,7 +244,7 @@ const useOntologySearch = ({ isOpen }: { isOpen: boolean }) => {
 
     onAttributeOptionChange,
     searchResults: data?.vertices || [],
-    ontologySearchSCTIDArray,
+
   };
 };
 
