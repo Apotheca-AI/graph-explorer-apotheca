@@ -55,11 +55,7 @@ export type GVertex = {
 export type GEdge = {
   "@type": "g:Edge";
   "@value": {
-<<<<<<< HEAD
-    id: string | GInt64;
-=======
     id: string | GInt64 | JanusID;
->>>>>>> 0072316067b7c8f9e3d7d7464b956a3415649f61
     label: string;
     inVLabel: string;
     inV: string | GInt64;
