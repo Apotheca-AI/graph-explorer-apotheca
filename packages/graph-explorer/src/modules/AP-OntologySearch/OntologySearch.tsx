@@ -78,6 +78,7 @@ const KeywordSearch = ({
     ontologyOptions,
     selectedOntologyName,
     onOntologyChange,
+
     fetchedData,
 
   } = useOntologySearch({
@@ -218,11 +219,13 @@ const KeywordSearch = ({
     handleOnClose();
   };
 
+
   // fxn for button to select entire list
   const setAllActive =()=> {
     
     setEntities
   }
+
 
 
   const currentTotal = useMemo(() => {
@@ -391,6 +394,7 @@ const KeywordSearch = ({
                 icon={<AddCircleIcon />}
                 onPress={setAllActive}
               >set all active
+
                 <div className={pfx("icon-button-name")}>
                   {/*console.log(ontologySearchResults)*/}
                 </div>

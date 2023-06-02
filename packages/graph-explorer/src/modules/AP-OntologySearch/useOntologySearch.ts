@@ -217,7 +217,6 @@ const useOntologySearch = ({ isOpen }: { isOpen: boolean }) => {
 
     setFetchedData(sctidValues)
 
-
     
   }, []);
 
@@ -248,7 +247,7 @@ const useOntologySearch = ({ isOpen }: { isOpen: boolean }) => {
 
     onAttributeOptionChange,
     searchResults: data?.vertices || [],
-    
+
   };
 };
 
