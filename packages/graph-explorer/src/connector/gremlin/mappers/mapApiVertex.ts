@@ -4,6 +4,8 @@ import type { GVertex } from "../types";
 import parsePropertiesValues from "./parsePropertiesValues";
 import toStringId from "./toStringId";
 
+
+
 const mapApiVertex = (
   apiVertex: GVertex,
   neighborsCount: NeighborsCountResponse = { totalCount: 0, counts: {} }
