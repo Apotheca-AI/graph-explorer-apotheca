@@ -4,6 +4,7 @@ import type {
 } from "../../AbstractConnector";
 import mapApiEdge from "../mappers/mapApiEdge";
 import mapApiVertex from "../mappers/mapApiVertex";
+import toStringId from "../mappers/toStringId";
 import oneHopTemplate from "../templates/oneHopTemplate";
 import type { GEdgeList, GVertexList } from "../types";
 import { GremlinFetch } from "../types";
@@ -27,9 +28,11 @@ type RawOneHopRequest = {
 
 const fetchNeighbors = async (
   gremlinFetch: GremlinFetch,
-  req: NeighborsRequest
+  req: NeighborsRequest,
+  rawIds: Map<string, "string" | "number">
 ): Promise<NeighborsResponse> => {
-  const gremlinTemplate = oneHopTemplate(req);
+  const idType = rawIds.get(req.vertexId) ?? "string";
+  const gremlinTemplate = oneHopTemplate({...req, idType});
   const data = await gremlinFetch<RawOneHopRequest>(gremlinTemplate);
 
   const verticesResponse =
