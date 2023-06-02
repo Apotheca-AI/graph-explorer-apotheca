@@ -2,7 +2,11 @@ import type { Vertex } from "../../../@types/entities";
 import type { NeighborsCountResponse } from "../../AbstractConnector";
 import type { GVertex } from "../types";
 import parsePropertiesValues from "./parsePropertiesValues";
+<<<<<<< HEAD
 import toStringId from './toStringId'
+=======
+import toStringId from "./toStringId";
+>>>>>>> 0072316067b7c8f9e3d7d7464b956a3415649f61
 
 const mapApiVertex = (
   apiVertex: GVertex,

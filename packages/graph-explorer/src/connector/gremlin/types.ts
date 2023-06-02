@@ -18,6 +18,13 @@ export type GDate = {
   "@value": number;
 };
 
+export type JanusID = {
+  "@type": "janusgraph:RelationIdentifier",
+  "@value": {
+    "relationId": string
+  }
+}
+
 export type GVertexProperty = {
   "@type": "g:VertexProperty";
   "@value": {
@@ -48,7 +55,11 @@ export type GVertex = {
 export type GEdge = {
   "@type": "g:Edge";
   "@value": {
+<<<<<<< HEAD
     id: string | GInt64;
+=======
+    id: string | GInt64 | JanusID;
+>>>>>>> 0072316067b7c8f9e3d7d7464b956a3415649f61
     label: string;
     inVLabel: string;
     inV: string | GInt64;
@@ -71,3 +82,18 @@ export type GEdgeList = {
 export type GremlinFetch = <TResult = any>(
   queryTemplate: string
 ) => Promise<TResult>;
+
+export type GraphSummary = {
+  numNodes: number;
+  numEdges: number;
+  numNodeLabels: number;
+  numEdgeLabels: number;
+  nodeLabels: Array<string>;
+  edgeLabels: Array<string>;
+  numNodeProperties: number;
+  numEdgeProperties: number;
+  nodeProperties: Record<string, number>;
+  edgeProperties: Record<string, number>;
+  totalNodePropertyValues: number;
+  totalEdgePropertyValues: number;
+};

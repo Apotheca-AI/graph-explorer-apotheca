@@ -3,6 +3,8 @@ import {
   VertexPreferences,
 } from "../StateProvider/userPreferences";
 
+import { OntologyListArrayType } from "../../modules/AP-OntologyTab/OntologyListTypes";
+
 export type AttributeConfig = {
   /**
    * Name of the attribute in the DB schema
@@ -168,7 +170,9 @@ export type RawConfiguration = {
    * Database schema: types, names, labels, icons, ...
    */
   schema?: {
+    totalVertices: number;
     vertices: Array<VertexTypeConfig>;
+    totalEdges: number;
     edges: Array<EdgeTypeConfig>;
     lastUpdate?: Date;
     triedToSync?: boolean;
@@ -182,10 +186,13 @@ export type RawConfiguration = {
    * Mark as created from a file
    */
   __fileBase?: boolean;
+  OntologyData?:OntologyListArrayType
 };
 
 export type ConfigurationContextProps = RawConfiguration & {
+  totalVertices: number;
   vertexTypes: Array<string>;
+  totalEdges: number;
   edgeTypes: Array<string>;
   getVertexTypeConfig(vertexType: string): VertexTypeConfig | undefined;
   getVertexTypeAttributes(vertexTypes: string[]): Array<AttributeConfig>;
